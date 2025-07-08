@@ -21,6 +21,6 @@ export class UsersController {
 
     @Get(':id')
     async findOne(@Param('id', ParseIntPipe) id: number): Promise<Users> {
-        return await this.usersService.findOne(id);
+        return await this.usersService.findOnebyId(id);
     }
 }
