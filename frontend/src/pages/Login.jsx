@@ -33,50 +33,52 @@ const handleLogin = async (e) => {
 
 
   return (
-    <Card className="p-6 shadow-md rounded-lg">
+    <>
+    <div className="bg-banner-login">
+        
+    </div>
+    <div className="login-form flex absolute flex-col p-4 rounded-2xl border-white border-8 items-center justify-center mt-96 w-[20em] sm:w-[20em] md:w-[25em] lg:w-[25em] xl:w-[25em] ">
       <Typography variant="h4" className="mb-6 text-center text-gray-800">
-        Sign In
+        Login
       </Typography>
 
       <form onSubmit={handleLogin} className="flex flex-col gap-4">
         <Input
           label="Email"
           type="email"
+          size="lg"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
         <Input
-          label="Password"
+          label="Contraseña"
           type="password"
+          size="lg"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
 
-        <div className="flex items-center justify-between text-sm">
-          <Checkbox label="Remember me" />
+        <div className="flex items-center justify-between text-sm gap-1">
+          <Checkbox label="Recordar" />
           <a href="#" className="text-blue-500 hover:underline">
-            Forgot password?
+            ¿Olvidaste tu contraseña?
           </a>
         </div>
 
         <Button type="submit" fullWidth>
-          Sign In
+          Iniciar sesión
         </Button>
       </form>
+        <Link to="/register" className="mt-4">
+            <Button type="submit">
+                Registrate
+            </Button>
+        </Link>
+    </div>
 
-      <div className="mt-6">
-        <p className="text-xs text-gray-600">
-          Don’t have an account yet?{" "}
-          <Link
-            to="/register"
-            className="text-blue-500 hover:underline font-medium"
-          >
-            Sign up
-          </Link>
-        </p>
-      </div>
-    </Card>
+    </>
+
   );
 }
