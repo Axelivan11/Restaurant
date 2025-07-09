@@ -1,15 +1,9 @@
-import { useState } from 'react'
-import './App.css'
-import { Button } from "@material-tailwind/react";
-
+// App.jsx
+import './App.css';
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
-
-  return (
-    <>
-    <Button>Button</Button>
-    </>
-  )
+  return <AppRoutes />; 
 }
 
-export default App
+export default App;
