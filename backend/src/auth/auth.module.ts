@@ -7,9 +7,11 @@ import { LocalStrategy } from './local.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { JwtStrategy } from './jwt.strategy';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Users } from 'src/users/entity/users.entity';
 
 @Module({
-  imports: [UsersModule, PassportModule,JwtModule.register({
+  imports: [UsersModule, TypeOrmModule.forFeature([Users]), PassportModule,JwtModule.register({
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '1h' },
     }),],

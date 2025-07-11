@@ -16,7 +16,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-const handleLogin = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       console.log(email,password)
@@ -38,7 +38,7 @@ const handleLogin = async (e) => {
         Sign In
       </Typography>
 
-      <form onSubmit={handleLogin} className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <Input
           label="Email"
           type="email"

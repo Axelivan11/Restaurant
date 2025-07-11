@@ -6,31 +6,30 @@ import {
   CardBody,
   CardFooter,
 } from "@material-tailwind/react";
-
+import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
+import { sendVerificationEmail } from "../api/api";
 
 export default function Register() {
-  const [form, setForm] = useState({
-    Name: "",
-    Lastname: "",
-    Username: "",
-    Email: "",
-    Password: "",
-  });
+  const [name, setName] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
 
-  const handleSubmit = (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(form);
-
-    // Redirección condicional (puedes reemplazar con lógica real)
-    if (form.Email === "admin@example.com") {
-      console.log("Redirigir a 2FA...");
-    } else {
-      alert("Correo no autorizado para 2FA.");
+    try {
+      console.log(name, lastname, username, email, password)
+      const data = await sendVerificationEmail(name, lastname, username, email, password);
+      console.log(data.data)
+      sessionStorage.setItem('email', email);
+      navigate("/verify");
+    } catch (error) {
+      console.error("Error al crear usuario:", error.response?.data || error.message);
+      alert("Ocurrio un error al crear usuario");
     }
   };
 
@@ -46,38 +45,38 @@ export default function Register() {
             <Input
               label="Nombre"
               name="Name"
-              value={form.Name}
-              onChange={handleChange}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               required
             />
             <Input
               label="Apellido"
               name="Lastname"
-              value={form.Lastname}
-              onChange={handleChange}
+              value={lastname}
+              onChange={(e) => setLastname(e.target.value)}
               required
             />
             <Input
               label="Usuario"
               name="Username"
-              value={form.Username}
-              onChange={handleChange}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
             />
             <Input
               label="Correo Electrónico"
               name="Email"
               type="email"
-              value={form.Email}
-              onChange={handleChange}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
             <Input
               label="Contraseña"
               name="Password"
               type="password"
-              value={form.Password}
-              onChange={handleChange}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
           </CardBody>

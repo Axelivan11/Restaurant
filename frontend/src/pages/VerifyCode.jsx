@@ -6,23 +6,40 @@ import {
   CardBody,
   CardFooter,
 } from "@material-tailwind/react";
-import { useState } from "react";
+
+import { verifyCodes } from "../api/api";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
+
 
 export default function VerifyCode() {
+
   const [code, setCode] = useState("");
+  const navigate = useNavigate();
+  const email = sessionStorage.getItem('email');
 
-  const handleSubmit = (e) => {
+
+ useEffect(() => {
+    if (!email) {
+      alert("Debes registrarte primero.");
+      navigate("/register");
+    }
+  }, [email, navigate]);
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (code === "123456") {
-      alert("Código correcto. Acceso concedido.");
-      // Aquí puedes redirigir o continuar el login
-    } else {
-      alert("Código incorrecto.");
+   try {
+      const data = await verifyCodes(email, code);
+      sessionStorage.removeItem('email');
+       alert("Usuario verificado y registrado con éxito.");
+      navigate("/login");
+    } catch (error) {
+      console.error("Error al verificar el código:", error.response?.data || error.message);
+      alert("El código no es válido o ha expirado.");
     }
   };
-
-  const email = localStorage.getItem("2faEmail") || "tu correo";
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -45,7 +62,7 @@ export default function VerifyCode() {
           </CardBody>
 
           <CardFooter className="pt-0">
-            <Button type="submit" fullWidth>
+            <Button onClick={handleSubmit} type="submit" fullWidth>
               Verificar
             </Button>
           </CardFooter>
