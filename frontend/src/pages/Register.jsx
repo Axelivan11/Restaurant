@@ -1,14 +1,14 @@
+
 import {
   Input,
   Button,
   Typography,
-  Card,
-  CardBody,
-  CardFooter,
 } from "@material-tailwind/react";
+
 import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import { sendVerificationEmail } from "../api/api";
+import ErrorAlert from "../components/ErrorAlert";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -17,77 +17,88 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
+  const [errorAlert, setErrorAlert] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(""); 
 
 const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       console.log(name, lastname, username, email, password)
       const data = await sendVerificationEmail(name, lastname, username, email, password);
-      console.log(data.data)
       sessionStorage.setItem('email', email);
       navigate("/verify");
     } catch (error) {
+      const message = error.response?.data?.message || "Error desconocido";
+      setErrorMessage(message);
+      setErrorAlert(true);
       console.error("Error al crear usuario:", error.response?.data || error.message);
-      alert("Ocurrio un error al crear usuario");
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <Card className="w-full max-w-md p-6">
-        <form onSubmit={handleSubmit}>
-          <CardBody className="flex flex-col gap-4">
-            <Typography variant="h4" color="blue-gray">
-              Registro
-            </Typography>
+    <>
+      <div className="bg-register">
+        <ErrorAlert
+          open={errorAlert}
+          onClose={() => setErrorAlert(false)}
+          message={errorMessage}
+        />
+      </div>
+      <div className="absolute register-form flex flex-col p-4 rounded-2xl border-white border-8 items-center justify-center w-[20em] sm:w-[20em] md:w-[25em] lg:w-[25em] xl:w-[25em]">
+        <Typography variant="h4" className="mb-6 text-center text-gray-800">
+          Registrate
+        </Typography>
 
-            <Input
-              label="Nombre"
-              name="Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-            <Input
-              label="Apellido"
-              name="Lastname"
-              value={lastname}
-              onChange={(e) => setLastname(e.target.value)}
-              required
-            />
-            <Input
-              label="Usuario"
-              name="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-            <Input
-              label="Correo Electrónico"
-              name="Email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            <Input
-              label="Contraseña"
-              name="Password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </CardBody>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <Input
+            label="Nombre"
+            name="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+          <Input
+            label="Apellido"
+            name="Lastname"
+            value={lastname}
+            onChange={(e) => setLastname(e.target.value)}
+            required
+          />
+          <Input
+            label="Usuario"
+            name="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+          <Input
+            label="Correo Electrónico"
+            name="Email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <Input
+            label="Contraseña"
+            name="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
-          <CardFooter className="pt-0">
-            <Button type="submit" fullWidth>
-              Registrarse
-            </Button>
-          </CardFooter>
+          <Button type="submit" fullWidth>
+            Registrarse
+          </Button>
         </form>
-      </Card>
-    </div>
+      </div>
+    </>
+
+
   );
 }
+
+
+
+

@@ -29,7 +29,7 @@ export class AuthService {
         const isPasswordValid = await bcrypt.compare(password, user.Password);
 
         if (!isPasswordValid) {
-            throw new UnauthorizedException('Invalid credentials');
+            throw new UnauthorizedException('Credenciales incorrectas, por favor intenta nuevamente.');
         }
         return user;
     }
@@ -67,13 +67,17 @@ export class AuthService {
     }
 
     async sendVerificationCode(userDto: usersDto) {
-        const { email } = userDto;
+        const { email, username } = userDto;
 
         // Verifica si el usuario ya existe
-        const existing = await this.userRepository.findOne({ where: { Email: email } });
-        console.log(existing)
-        if (existing) {
-            throw new BadRequestException('El email ya está registrado.');
+        const existingEmail = await this.userRepository.findOne({ where: { Email: email } });
+        const existingUsername = await this.userRepository.findOne({ where: { Username: username } })
+        
+        if (existingEmail) {
+            throw new BadRequestException('Email ya está registrado, por favor intenta nuevamente.');
+        }
+        else if (existingUsername) {
+            throw new BadRequestException('Username ya está registrado, por favor intenta nuevamente.');
         }
 
         // Crea código de verificación y tiempo límite
