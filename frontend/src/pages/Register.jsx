@@ -26,7 +26,9 @@ const handleSubmit = async (e) => {
       console.log(name, lastname, username, email, password)
       const data = await sendVerificationEmail(name, lastname, username, email, password);
       sessionStorage.setItem('email', email);
-      navigate("/verify");
+      navigate("/verify", {
+      state: { name, lastname, username, email, password }
+    });
     } catch (error) {
       const message = error.response?.data?.message || "Error desconocido";
       setErrorMessage(message);

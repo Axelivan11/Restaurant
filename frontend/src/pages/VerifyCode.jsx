@@ -4,12 +4,16 @@ import {
 } from "@material-tailwind/react";
 import { verifyCodes } from "../api/api";
 import { useRef, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation  } from "react-router-dom";
 import ErrorAlert from "../components/ErrorAlert";
+import { sendVerificationEmail } from "../api/api";
 
 
 export default function VerifyCode() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const userData = location.state;
+
   const email = sessionStorage.getItem('email');
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const inputRefs = useRef([]);
@@ -110,6 +114,18 @@ export default function VerifyCode() {
     }
   };
 
+  const handleSendEmail = async (e) => {
+      e.preventDefault();
+      try {
+        const data = await sendVerificationEmail(userData.name,userData.lastname, userData.username, userData.email, userData.password);
+      } catch (error) {
+        const message = error.response?.data?.message || "Error desconocido";
+        setErrorMessage(message);
+        setErrorAlert(true);
+        console.error("Error al crear usuario:", error.response?.data || error.message);
+      }
+    };
+
   return (
     <>
       <div className="bg-verify">
@@ -150,7 +166,7 @@ export default function VerifyCode() {
             Verificar
           </Button>
           <p className="text-muted mt-4">
-            ¿No recibiste el código? <a href="#" className="text-blue-500 hover:underline">Solicitar nuevamente</a>
+            ¿No recibiste el código? <a href="#" onClick={handleSendEmail} className="text-blue-500 hover:underline">Solicitar nuevamente</a>
           </p>
         </form>
       </div>
