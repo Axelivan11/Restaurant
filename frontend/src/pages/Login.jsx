@@ -2,29 +2,36 @@ import {
   Input,
   Button,
   Checkbox,
-  Typography,
 } from "@material-tailwind/react";
-import { Link } from "react-router-dom";
 import { login } from "../api/api";
 import { useNavigate } from 'react-router-dom';
-import React, { useState } from "react";
+import { useState } from "react";
 import ErrorAlert from "../components/ErrorAlert";
+import LoadingAnimation from "../../public/Loading.json";
+import Lottie from "lottie-react";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const [errorAlert, setErrorAlert] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(""); 
+  const [errorMessage, setErrorMessage] = useState("");
+   const [loading, setLoading] = useState(false);
 
-const handleSubmit = async (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(email,password)
       const data = await login(email, password);
       localStorage.setItem("token", data.access_token);
       console.log("Token guardado:", data.access_token);
-      navigate("/home");
+
+      // ⏳ Muestra pantalla de carga por 3 segundos
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        navigate("/admin"); // o "/home"
+      }, 3000);
     } catch (error) {
       const message = error.response?.data?.message || "Error desconocido";
       setErrorMessage(message);
@@ -33,18 +40,33 @@ const handleSubmit = async (e) => {
     }
   };
 
+    // 👇 Pantalla de carga simple
+  if (loading) {
+    return (
+    <div className='vh-100 flex flex-col mx-8 items-center justify-center'>
+        <Lottie
+            animationData={LoadingAnimation}
+            loop={true}
+            autoplay={true}
+            style={{ width: 300, height: 300 }}
+        />
+        <p className='text-2xl text-center font-extrabold text-[--color-red-950] mb-4'>Desempacando los sabores que más te gustan 😋🍽️</p>
+    </div>
+    );
+  }
+
   return (
     <>
-      <div className="bg-banner-login">
+      <div className="bg-banner-login bg-red-50">
         <ErrorAlert
           open={errorAlert}
           onClose={() => setErrorAlert(false)}
           message={errorMessage}
         />
       </div>
-      <div className="login-form flex absolute flex-col p-4 rounded-2xl border-white border-8 items-center justify-center mt-96 w-[20em]
-     sm:w-[20em] md:w-[25em] lg:w-[25em] xl:w-[25em] ">
-        <Typography variant="h4" className="mb-6 text-center text-gray-800">Login</Typography>
+      <div className="login-form flex absolute flex-col p-4 rounded-3xl border-[--color-red-950] border-4 items-center justify-center w-[20em]
+     sm:w-[20em] md:w-[25em] lg:w-[25em] xl:w-[25em] bg-red-50 pb-8">
+        <h2 className="mb-6 text-center text-[--color-red-950] text-2xl font-bold">Login</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <Input
             label="Email"
@@ -68,15 +90,9 @@ const handleSubmit = async (e) => {
             </a>
           </div>
           <Button type="submit" fullWidth>
-            Sign In
             Iniciar sesión
           </Button>
         </form>
-        <Link to="/register" className="mt-4">
-          <Button type="submit">
-            Registrate
-          </Button>
-        </Link>
       </div>
 
     </>

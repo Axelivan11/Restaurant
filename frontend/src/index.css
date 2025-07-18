@@ -1,6 +1,11 @@
 @import '../styles/Login.css';
 @import '../styles/Register.css';
 @import '../styles/Verify.css';
+@import '../styles/Welcome.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root{
+    --color-red-950:#531313;
+}

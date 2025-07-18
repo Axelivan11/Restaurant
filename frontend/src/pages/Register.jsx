@@ -1,4 +1,3 @@
-
 import {
   Input,
   Button,
@@ -39,14 +38,14 @@ const handleSubmit = async (e) => {
 
   return (
     <>
-      <div className="bg-register">
+      <div className="bg-register bg-red-50">
         <ErrorAlert
           open={errorAlert}
           onClose={() => setErrorAlert(false)}
           message={errorMessage}
         />
       </div>
-      <div className="absolute register-form flex flex-col p-4 rounded-2xl border-white border-8 items-center justify-center w-[20em] sm:w-[20em] md:w-[25em] lg:w-[25em] xl:w-[25em]">
+      <div className="absolute register-form flex flex-col p-4 rounded-3xl border-[--color-red-950] border-4 items-center justify-center w-[20em] sm:w-[20em] md:w-[25em] lg:w-[25em] xl:w-[25em] bg-red-50">
         <Typography variant="h4" className="mb-6 text-center text-gray-800">
           Registrate
         </Typography>
@@ -100,7 +99,3 @@ const handleSubmit = async (e) => {
 
   );
 }
-
-
-
-
