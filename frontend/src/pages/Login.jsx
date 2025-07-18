@@ -7,8 +7,8 @@ import { login } from "../api/api";
 import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import ErrorAlert from "../components/ErrorAlert";
-import LoadingAnimation from "../../public/Loading.json";
-import Lottie from "lottie-react";
+import { motion, AnimatePresence } from "framer-motion";
+import Loading from "./Loading";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -43,15 +43,17 @@ export default function Login() {
     // 👇 Pantalla de carga simple
   if (loading) {
     return (
-    <div className='vh-100 flex flex-col mx-8 items-center justify-center'>
-        <Lottie
-            animationData={LoadingAnimation}
-            loop={true}
-            autoplay={true}
-            style={{ width: 300, height: 300 }}
-        />
-        <p className='text-2xl text-center font-extrabold text-[--color-red-950] mb-4'>Desempacando los sabores que más te gustan 😋🍽️</p>
-    </div>
+        <AnimatePresence mode="wait">
+            <motion.div
+                key="loading-screen"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+            >
+                <Loading />
+          </motion.div>
+    </AnimatePresence>
     );
   }
 
