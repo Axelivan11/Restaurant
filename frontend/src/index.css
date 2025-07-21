@@ -2,6 +2,7 @@
 @import '../styles/Register.css';
 @import '../styles/Verify.css';
 @import '../styles/Welcome.css';
+@import '../styles/Test.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

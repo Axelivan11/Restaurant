@@ -1,28 +1,14 @@
-// src/components/Navbar.jsx
-import {
-  Navbar as MTNavbar,
-  Typography,
-  IconButton,
-} from "@material-tailwind/react";
-import { BellIcon, UserCircleIcon } from "@heroicons/react/24/solid";
+import { MenuSide } from '../components/MenuSide'
+import { ShoppingCartIcon } from '@heroicons/react/24/solid'
 
-export default function Navbar() {
+export const Navbar = () => {
   return (
-    <MTNavbar className="mx-auto max-w-full px-4 py-2 rounded-none shadow-md">
-      <div className="flex items-center justify-between">
-        <Typography variant="h6" color="blue-gray">
-          Mi Aplicación
-        </Typography>
-
-        <div className="flex items-center gap-4">
-          <IconButton variant="text" color="blue-gray">
-            <BellIcon className="h-5 w-5" />
-          </IconButton>
-          <IconButton variant="text" color="blue-gray">
-            <UserCircleIcon className="h-6 w-6" />
-          </IconButton>
+    <div className="flex justify-between content-center pt-8 min-h-screen bg-red-50 w-full mx-4 sm:mx-4 md:mx-8 lg:mx-32 xl:mx-32">
+        <MenuSide />
+        <div className='cursor-pointer'>
+            <ShoppingCartIcon className="size-12 text-[var(--color-red-950)]" />
         </div>
-      </div>
-    </MTNavbar>
-  );
+    </div>
+
+  )
 }

@@ -14,7 +14,7 @@ export default function AuthLayout() {
             <div className="w-full flex items-center justify-center bg-red-50 h-screen">
             <Outlet />
             </div>
-        </motion.div>
+        </motion.div>   
     </AnimatePresence>
   );
 }

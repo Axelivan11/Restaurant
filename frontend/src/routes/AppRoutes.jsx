@@ -11,6 +11,7 @@ import VerifyCode from "../pages/VerifyCode";
 import NotFound from "../pages/NotFound";
 import Welcome from "../pages/Welcome";
 import Loading from "../pages/Loading";
+import Test from "../pages/Test";
 
 
 const AppRoutes = () => (
@@ -23,6 +24,7 @@ const AppRoutes = () => (
       <Route path="/register" element={<Register />} />
       <Route path="/verify" element={<VerifyCode />} />
       <Route path="/loading" element={<Loading />} />
+
     </Route>
 
     <Route
@@ -34,6 +36,7 @@ const AppRoutes = () => (
     >
       <Route path="/home" element={<Home />} />
       <Route path="/admin" element={<Admin />} />
+      <Route path="/test" element={<Test />} />
     </Route>
 
     <Route path="*" element={<NotFound />} />
