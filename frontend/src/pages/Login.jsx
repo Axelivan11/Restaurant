@@ -30,7 +30,7 @@ export default function Login() {
       setLoading(true);
       setTimeout(() => {
         setLoading(false);
-        navigate("/admin"); // o "/home"
+        navigate("/home"); // o "/home"
       }, 3000);
     } catch (error) {
       const message = error.response?.data?.message || "Error desconocido";

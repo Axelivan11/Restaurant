@@ -11,7 +11,7 @@ export default function MainLayout() {
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.8, delay: 0.5, ease: [0, 0.71, 0.2, 1.01] }}
         >
-            <div className="bg-test w-full bg-red-50">
+            <div className="bg-test w-full bg-red-50 py-8">
                 <Outlet />
             </div>
         </motion.div>   
